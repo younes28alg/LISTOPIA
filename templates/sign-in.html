@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+    <h1>Your Tasks</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.content }}</td>
+                <td>{{ task.category }}</td>
+                <td>{{ 'Low' if task.priority == 1 else 'Medium' if task.priority == 2 else 'High' }}</td>
+                <td>{{ task.status }}</td>
+                <td>
+                    <a href="/index/edit/{{ task.id }}" class="btn btn-primary">Edit</a>
+                    <a href="/index/delete/{{ task.id }}" class="btn btn-danger">Delete</a>
+                    <form action="/index/toggle_status/{{ task.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-warning">Toggle Status</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
