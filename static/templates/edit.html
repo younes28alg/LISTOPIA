@@ -1,0 +1,109 @@
+{%extends 'base.html'%}
+
+{% block head%}
+<!-- Sidebar -->
+<div class="col-2 col-sm-3 col-xl-2 d-flex fixed-top" id="sidebar">
+    <div class="d-flex flex-column flex-grow-1 align-items-center align-items-sm-start bg-dark px-2 px-sm-3 py-2 text-white vh-100 overflow-auto">
+        <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5">L<span class="d-none d-sm-inline">ISTOPIA</span></span>
+        </a>
+        <ul class="nav nav-pills flex-column flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+                <a href="/index" class="nav-link px-sm-0 px-2">
+                    <i class="fs-5 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link px-sm-0 px-2">
+                    <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">dashboard</span>
+                </a>
+            </li>
+           
+           
+            <li>
+                <a href="/create-task" class="nav-link px-sm-0 px-2">
+                    <i class="fs-5 bi-grid"></i><span class="ms-1 d-none d-sm-inline">Create new task</span></a>
+            </li>
+            
+        </ul>
+        <div class="dropup py-sm-4 py-1 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://media.istockphoto.com/id/1313958250/vector/user-avatar-profile-icon-black-vector-illustration-on-transparent-background-website-or-app.jpg?s=1024x1024&w=is&k=20&c=uUqP7QXNIcLTkQpRLwtnjU6z1bDC50ISz9BJyO41hNA=" alt="hugenerd" width="28" height="28" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1"> {{ current_user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark px-0 px-sm-2 text-center text-sm-start" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item px-1" href="/logout"><i class="fs-6 bi-door"></i><span class="d-none d-sm-inline ps-1">logout</span></a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<body>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="container mt-5">
+        <section class="get-in-touch">
+            <h1 class="title">Update ur task, {{ current_user.username }}</h1>
+        </section>
+        
+    </div>
+
+
+
+
+
+    <section class="get-in-touch" >
+    
+    <form action="/index/edit/{{ task.id }}" method="POST" class="contact-form row">
+        <!-- Title -->
+        <div class="form-field col-lg-6">
+           <input id="title" name="title" class="input-text js-input" type="text" value="{{ task.title }}" required>
+           <label class="label" for="title">Title</label>
+        </div>
+        
+        <!-- Category -->
+        <div class="form-field col-lg-6">
+           <input id="category" name="category" class="input-text js-input" type="text" value="{{ task.category }}" required>
+           <label class="label" for="category">Category</label>
+        </div>
+        
+        <!-- Content -->
+        <div class="form-field col-lg-12">
+           <input id="content" name="content" class="input-text js-input" type="text" value="{{ task.content }}" required>
+           <label class="label" for="content">Content</label>
+        </div>
+     
+        <!-- Priority -->
+        <div class="contact-form">
+           <div class="form-field col-lg-12">
+              <label class="label" for="priority"></label>
+              <select name="priority" id="priority" class="form-control" required>
+                 <option value="1" {% if task.priority == 1 %}selected{% endif %}>Low</option>
+                 <option value="2" {% if task.priority == 2 %}selected{% endif %}>Medium</option>
+                 <option value="3" {% if task.priority == 3 %}selected{% endif %}>High</option>
+              </select>
+           </div>
+        </div>
+     
+        <!-- Status -->
+        <div class="form-field col-lg-12">
+           <label class="label" for="status"></label>
+           <select name="status" id="status" class="form-control" required>
+              <option value="in progress" {% if task.status == 'in progress' %}selected{% endif %}>In Progress</option>
+              <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+           </select>
+        </div>
+     
+        <!-- Buttons -->
+        <div class="form-field col-lg-12">
+           <button class="submit-btn" type="submit" value="Submit">Update Task</button>
+           <a href="/index" class="submit-btn">Cancel</a>
+        </div>
+     </form>
+     
+ </section>
+    </main>
+</body>
+</html>
+
+{% endblock%}

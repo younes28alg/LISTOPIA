@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<!-- Sidebar -->
+<div class="col-2 col-sm-3 col-xl-2 d-flex fixed-top" id="sidebar">
+   <div class="d-flex flex-column flex-grow-1 align-items-center align-items-sm-start bg-dark px-2 px-sm-3 py-2 text-white vh-100">
+       <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+           <span class="fs-5">L<span class="d-none d-sm-inline">ISTOPIA</span></span>
+       </a>
+       <ul class="nav nav-pills flex-column flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
+           <li class="nav-item">
+               <a href="/index" class="nav-link px-sm-0 px-2">
+                   <i class="fs-5 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span>
+               </a>
+           </li>
+           <li class="nav-item">
+               <a href="/dashboard" class="nav-link px-sm-0 px-2">
+                   <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">Dashboard</span>
+               </a>
+           </li>
+           <li>
+               <a href="/create-task" class="nav-link px-sm-0 px-2">
+                   <i class="fs-5 bi-grid"></i><span class="ms-1 d-none d-sm-inline">Create new task</span></a>
+           </li>
+       </ul>
+       <div class="dropup py-sm-4 py-1 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
+           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+               <img src="https://media.istockphoto.com/id/1313958250/vector/user-avatar-profile-icon-black-vector-illustration-on-transparent-background-website-or-app.jpg?s=1024x1024&w=is&k=20&c=uUqP7QXNIcLTkQpRLwtnjU6z1bDC50ISz9BJyO41hNA=" alt="User" width="28" height="28" class="rounded-circle">
+               <span class="d-none d-sm-inline mx-1">{{ current_user.username }}</span>
+           </a>
+           <ul class="dropdown-menu dropdown-menu-dark px-0 px-sm-2 text-center text-sm-start" aria-labelledby="dropdownUser1">
+               <li><a class="dropdown-item px-1" href="/logout"><i class="fs-6 bi-door"></i><span class="d-none d-sm-inline ps-1">Logout</span></a></li>
+           </ul>
+       </div>
+   </div>
+</div>
+
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 offset-2 px-md-4" style="overflow-y: auto; min-height: 100vh;">
+    <section class="get-in-touch">
+        <h1 class="title">Welcome back, {{ current_user.username }}</h1>
+    </section>
+
+    <!-- Task List -->
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-12 col-md-6 col-lg-4 wow fadeInUp mb-5 text-center" style="visibility: visible; animation-name: fadeInUp;">
+            <div class="price-table">
+                <div class="price-header lis-bg-light lis-rounded-top py-4 border border-bottom-0 lis-brd-light">
+                    <h5 class="text-uppercase lis-latter-spacing-2">{{ task.title }}</h5>
+                    <h6 class="font-weight-normal">{{ task.category }}</h6>
+                    <p class="mb-0">
+                        {% if task.priority == 1 %}
+                            Low Priority
+                        {% elif task.priority == 2 %}
+                            Medium Priority
+                        {% else %}
+                            High Priority
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="border border-top-0 lis-brd-light bg-white py-5 lis-rounded-bottom">
+                    <p class="mb-3">{{ task.content }}</p>
+                    <p class="font-weight-bold mb-3">Status: {{ task.status }}</p>
+                    <div class="d-flex justify-content-center button-group">
+                     <!-- Edit Button (use <a> tag for navigation) -->
+                    <a href="/index/edit/{{ task.id }}" class="btn btn-secondary">Edit</a>
+
+<!-- Delete Button (use <a> tag for navigation) -->
+                    <a href="/index/delete/{{ task.id }}" class="btn btn-secondary">Delete</a>
+
+<!-- Toggle Status Button (use <form> for POST request) -->
+                  <form action="/index/toggle_status/{{ task.id }}" method="POST" style="display:inline;">
+                   <button type="submit" class="btn btn-secondary">Toggle Status</button>
+                  </form>
+
+                 </div>
+                 
+                 
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}
